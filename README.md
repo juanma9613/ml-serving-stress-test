@@ -65,13 +65,11 @@ follow steps here: https://github.com/tensorflow/serving/blob/master/tensorflow_
 
 You copy the model and commit 
 - docker run -d --name serving_base tensorflow/serving
-- docker cp /home/ubuntu/golang-samples/chat_app_kafka/saved_model/bert-base-uncased-SST-2 servig_base
+- docker cp <path to your saved model folder>/bert-base-uncased-SST-2 servig_base
 - docker commit --change "ENV MODEL_NAME bert-base-uncased-SST-2" serving_base bert-base-uncased-SST-2-image
 
-Then send it to ECR
+Run a container with your image
+- docker run -p 8501:8501  -t bert-base-uncased-sst2-image
 
-aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 249338453082.dkr.ecr.us-east-2.amazonaws.com
 
-etc
-
-# Then go to ecs and create the cluster!!
+# Stress test you model
