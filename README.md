@@ -1,4 +1,4 @@
-# In this repository I want to show how to deploy a model using tf serving and test it.
+# deploy a model using tf serving and stress test it.
 
 This tutorial is based on this medium post https://towardsdatascience.com/use-pre-trained-huggingface-models-in-tensorflow-serving-d2761f7e69f6 which shows how to use huggingface models on tf serving. 
 
@@ -9,7 +9,6 @@ This tutorial has the following sections:
 1. Installation instructions
 2. How to get a TF SavedModel
 3. How to serve your model using TF Serving on Docker
-
 
 
 # Installation instructions
@@ -68,10 +67,9 @@ You copy the model and commit
 - docker cp /home/ubuntu/golang-samples/chat_app_kafka/saved_model/bert-base-uncased-SST-2 servig_base
 - docker commit --change "ENV MODEL_NAME bert-base-uncased-SST-2" serving_base bert-base-uncased-SST-2-image
 
-Then send it to ECR
 
-aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 249338453082.dkr.ecr.us-east-2.amazonaws.com
 
-etc
+# Stress test your model
 
-# Then go to ecs and create the cluster!!
+locust --host=http://ec2-3-132-201-36.us-east-2.compute.amazonaws.com:8501 -f inference_clients/locust_client.py
+

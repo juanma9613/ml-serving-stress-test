@@ -1,10 +1,7 @@
+from locust import HttpUser, task, constant_throughput
 import requests
 import json
 from transformers import AutoTokenizer, AutoConfig, DistilBertTokenizer, BertTokenizer
-import numpy as np
-def softmax(x):
-    e_x = np.exp(x - np.max(x))
-    return e_x / e_x.sum(axis=0)
 
 
 tokenizer = DistilBertTokenizer.from_pretrained("textattack/bert-base-uncased-SST-2")
@@ -30,7 +27,9 @@ headers = {
   'Content-Type': 'application/json'
 }
 
-response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
-
-print(softmax(json.loads(response.text)['predictions'][0]))
+class HelloWorldUser(HttpUser):
+    wait_time = constant_throughput(0.1)
+    @task
+    def inference(self):
+        self.client.post("/v1/models/bert-base-uncased-SST-2:predict", json=payload)
