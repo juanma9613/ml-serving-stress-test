@@ -59,3 +59,19 @@ python hugging_face/convert_pytorch_to_tf.py
 In order to deploy your model, the recommended way is to use docker to run tf serving. My preferred way is by creating [my own serving image](https://www.tensorflow.org/tfx/serving/docker#creating_your_own_serving_image):
 
 
+Remember that now is better to keep using amd instead of arm, so move to a linux instance with amd if necessary.
+
+follow steps here: https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md#creating-your-own-serving-image
+
+You copy the model and commit 
+- docker run -d --name serving_base tensorflow/serving
+- docker cp /home/ubuntu/golang-samples/chat_app_kafka/saved_model/bert-base-uncased-SST-2 servig_base
+- docker commit --change "ENV MODEL_NAME bert-base-uncased-SST-2" serving_base bert-base-uncased-SST-2-image
+
+Then send it to ECR
+
+aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 249338453082.dkr.ecr.us-east-2.amazonaws.com
+
+etc
+
+# Then go to ecs and create the cluster!!
