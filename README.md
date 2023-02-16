@@ -74,6 +74,8 @@ Run a container with your image
 
 # stress test
 
+After installing locust you can run it with the following cmd:
+
 locust --host=http://ec2-3-132-201-36.us-east-2.compute.amazonaws.com:8501 -f inference_clients/locust_client.py
 
 

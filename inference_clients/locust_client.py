@@ -29,7 +29,7 @@ headers = {
 
 
 class HelloWorldUser(HttpUser):
-    wait_time = constant_throughput(0.1)
+    wait_time = constant_throughput(2)
     @task
     def inference(self):
         self.client.post("/v1/models/bert-base-uncased-SST-2:predict", json=payload)
