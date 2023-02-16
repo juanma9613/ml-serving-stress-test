@@ -64,12 +64,16 @@ follow steps here: https://github.com/tensorflow/serving/blob/master/tensorflow_
 
 You copy the model and commit 
 - docker run -d --name serving_base tensorflow/serving
-- docker cp /home/ubuntu/golang-samples/chat_app_kafka/saved_model/bert-base-uncased-SST-2 servig_base
+- docker cp <path to your saved model folder>/bert-base-uncased-SST-2 servig_base
 - docker commit --change "ENV MODEL_NAME bert-base-uncased-SST-2" serving_base bert-base-uncased-SST-2-image
 
 
+Run a container with your image
+- docker run -p 8501:8501  -t bert-base-uncased-sst2-image
 
-# Stress test your model
+
+# stress test
 
 locust --host=http://ec2-3-132-201-36.us-east-2.compute.amazonaws.com:8501 -f inference_clients/locust_client.py
+
 
